@@ -5,7 +5,7 @@ import datetime
 def getTime():
     return datetime.datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
 
-class Orc:
+class FOrc:
     def __init__(self,host='localhost',user='fire', passwd='kakou',sid='ORCL'):
         self.host    = host
         self.user    = user

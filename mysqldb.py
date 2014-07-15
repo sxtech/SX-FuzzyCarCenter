@@ -10,7 +10,7 @@ import MySQLdb
 def getTime():
     return datetime.datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
 
-class Mysql:
+class FMysql:
     def __init__(self,host = 'localhost',user = 'root', passwd = '',ip='127.0.0.1'):
         self.host    = host
         self.user    = user

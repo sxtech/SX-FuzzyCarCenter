@@ -4,6 +4,7 @@ import time,sys,gl,os
 import logging
 import logging.handlers
 from fuzzyq import FuzzyQ
+from singleinstance import singleinstance
 import gl
 
 def initLogging(logFilename):
@@ -22,7 +23,7 @@ def initLogging(logFilename):
 
 #版本号
 def version():
-    return 'SX-FuzzyCarCenter V0.1.5'
+    return 'SX-FuzzyCarCenter V0.1.6'
 
  
 class MyThread(QtCore.QThread):
@@ -112,6 +113,12 @@ class MainWindow(QtGui.QMainWindow):
         self.text_area.append(unicode(message, 'gbk'))
         
 if __name__ == '__main__':
+    myapp = singleinstance()
+    if myapp.aleradyrunning():
+        print version(),'已经启动!3秒后自动退出...'
+        time.sleep(3)
+        sys.exit(0)
+        
     app = QtGui.QApplication(sys.argv)
  
     mainwindow = MainWindow()
