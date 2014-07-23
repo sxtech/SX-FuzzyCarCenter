@@ -1,13 +1,14 @@
 # -*- coding: cp936 -*-
 import MySQLdb
-from mysqldb import FMysql
+from mysqldb import FCMysql
 from orcdb import FOrc
 from inicof import FuzzyQIni
 from helpfunc import HelpFunc
 import time,datetime,os,random,string
 import logging
-import logging.handlers
 import gl
+
+logger = logging.getLogger('root')
 
 class FuzzyQ:
     def __init__(self):
@@ -29,22 +30,14 @@ class FuzzyQ:
         self.orcCount    = 0      #oracle登录计数
         
         #数据库实例
-        self.mysql = FMysql(mysqlset['host'],mysqlset['user'],mysqlset['passwd'])
+        self.mysql = FCMysql(mysqlset['host'],mysqlset['user'],mysqlset['passwd'])
         self.orc = FOrc(orcset['host'],orcset['user'],orcset['passwd'],orcset['sid'])
         #登录数据库
         self.longinMysql()
         self.loginOrc()
         
         self.id_ = systset['cltxid']
-
-        logging.info('Logon System')
         
-    #析构函数
-    def __del__(self):
-        logging.info('Logout System')
-        del self.orc
-        del self.mysql
-        del self.fqIni
 
     #mysql登录
     def longinMysql(self):
@@ -109,16 +102,16 @@ class FuzzyQ:
                             hp_dict[new_id] = 1
                 except MySQLdb.Error,e:
                     gl.TRIGGER.emit("<font %s>%s</font>"%(gl.style_red,self.hf.getTime()+str(e)))
-                    logging.error(str(e))
+                    logger.error(str(e))
                     if e[0] == 1267:
                         pass
                     else:
-                        logging.error(str(e))
+                        logger.error(str(e))
                         self.loginmysqlflag = False
                         return
                 except Exception,e:
                     gl.TRIGGER.emit("<font %s>%s</font>"%(gl.style_red,self.hf.getTime()+str(e)))
-                    logging.error(str(e))
+                    logger.error(str(e))
                     if str(e)[:3] == 'ORA':
                         self.loginorcflag = False           
                         return
@@ -137,12 +130,12 @@ class FuzzyQ:
                 if e[0] == 1267:
                     pass
                 else:
-                    logging.error(str(e))
+                    logger.error(str(e))
                     self.loginmysqlflag = False
                     return
             except Exception,e:
                 gl.TRIGGER.emit("<font %s>%s</font>"%(gl.style_red,self.hf.getTime()+str(e)))
-                logging.error(str(e))
+                logger.error(str(e))
                 if str(e)[:3] == 'ORA':
                     self.loginorcflag = False           
                     return
@@ -157,7 +150,7 @@ class FuzzyQ:
         if ot_fuzzyid !=[]:
             self.orc.delFuzzyHphmByID(ot_fuzzyid[0][0])
             gl.TRIGGER.emit("<font %s>%s</font>"%(gl.style_orange,self.hf.getTime()+'del '+str(ot_fuzzyid[0][0])))
-            logging.warning('del '+str(ot_fuzzyid[0][0]))
+            logger.warning('del '+str(ot_fuzzyid[0][0]))
 
     #主循环
     def mainLoop(self):
@@ -165,6 +158,9 @@ class FuzzyQ:
             #退出检测
             if gl.QTFLAG == False:
                 gl.DCFLAG = False
+                del self.orc
+                del self.mysql
+                del self.fqIni
                 break
 
             #登录检测
