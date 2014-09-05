@@ -25,7 +25,7 @@ def initLogging(logFilename):
     
 #°æ±¾ºÅ
 def version():
-    return 'SX-FuzzyCarCenter V0.2.0'
+    return 'SX-FuzzyCarCenter V0.3.0'
 
  
 class MyThread(QtCore.QThread):
@@ -42,8 +42,6 @@ class MyThread(QtCore.QThread):
 
 class dcmain:
     def __init__(self,trigger):
-        logger.info('Logon System')
-        
         gl.TRIGGER.emit("<font size=6 font-weight=bold face=arial color=tomato>%s</font>"%('Welcome to use '+version()))
         self.fq = FuzzyQ()
 
@@ -130,7 +128,6 @@ class MainWindow(QtGui.QMainWindow):
         gl.QTFLAG = False
         while gl.DCFLAG == True:
             time.sleep(1)
-        logger.warning('Logout System')
         sys.exit()
 
     #ÍË³öGUI
@@ -142,7 +139,6 @@ class MainWindow(QtGui.QMainWindow):
             gl.QTFLAG = False
             while gl.DCFLAG == True:
                 time.sleep(1)
-            logger.warning('Logout System')
             sys.exit()
         else:
             pass
