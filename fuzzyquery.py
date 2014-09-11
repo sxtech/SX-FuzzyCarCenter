@@ -1,10 +1,10 @@
 # -*- coding: cp936 -*-
-import MySQLdb
 from mysqldb import FCMysql
 from orcdb import FOrc
 from inicof import FuzzyQIni
 from helpfunc import HelpFunc
 import time,datetime,os,random,string
+import MySQLdb
 import logging
 import gl
 
@@ -32,15 +32,12 @@ class FuzzyQ:
         #数据库实例
         self.mysql = FCMysql(mysqlset['host'],mysqlset['user'],mysqlset['passwd'])
         self.orc = FOrc(orcset['host'],orcset['user'],orcset['passwd'],orcset['sid'])
-        #登录数据库
-        self.longinMysql()
-        self.loginOrc()
         
         self.id_ = systset['cltxid']
 
         self.hphm_dict = {}            #车牌号码字典
         self.hphmdictflag = False      #初始化车牌字典标记
-        self.invalidhphm = -1
+        self.invalidhphm = -1          #车牌号='-'的ID
 
     #mysql登录
     def longinMysql(self):

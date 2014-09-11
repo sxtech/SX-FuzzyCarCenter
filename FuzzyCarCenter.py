@@ -25,7 +25,7 @@ def initLogging(logFilename):
     
 #°æ±¾ºÅ
 def version():
-    return 'SX-FuzzyCarCenter V0.3.0'
+    return 'SX-FuzzyCarCenter V0.3.1'
 
  
 class MyThread(QtCore.QThread):

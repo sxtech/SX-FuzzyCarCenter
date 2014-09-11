@@ -3,8 +3,6 @@ import time
 import datetime
 import MySQLdb
 
-
-
 class FCMysql:
     def __init__(self,host = 'localhost',user = 'root', passwd = '',ip='127.0.0.1'):
         self.host    = host
